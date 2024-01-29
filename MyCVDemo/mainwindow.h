@@ -15,9 +15,12 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/imgproc/types_c.h>
 #include "opencv2/imgproc/imgproc_c.h"
-
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/imgproc.hpp>
 //usleep
 #include <unistd.h>
+#include <iostream>
 
 
 
@@ -49,6 +52,7 @@ public:
     QTimer * timer;
 
 
+
 private slots:
 
     void on_openPic_clicked();
@@ -62,6 +66,16 @@ private slots:
     void on_pushButton_clicked();
 
     void on_openCamera_clicked();
+
+    void on_pushButton_8_clicked();
+
+    void on_verticalSlider_valueChanged(int value);
+
+    void on_verticalSlider_5_valueChanged(int value);
+
+    void on_action_2_triggered();
+
+    void on_pushButton_5_clicked();
 
 private:
     Ui::MainWindow *ui;

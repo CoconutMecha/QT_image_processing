@@ -2,7 +2,9 @@
 #include "ui_mainwindow.h"
 
 #include <QMessageBox>
-
+#include <opencv2/highgui.hpp>
+#include <opencv2/imgcodecs.hpp>
+#include <opencv2/imgproc.hpp>
 
 using namespace std;
 using namespace cv;
@@ -145,6 +147,26 @@ void MainWindow::ReadFrame()
                 Canny(frame2,frame1,200,1);
                 //转换回BGR类型
                 cvtColor(frame1,frame1,CV_GRAY2BGR);
+                QImage im1(frame1.data,frame1.cols,frame1.rows,QImage::Format_RGB888);
+                this->ui->after_video_lbl->setPixmap(QPixmap::fromImage(im1));
+                //自适应大小
+                this->ui->after_video_lbl->setScaledContents(true);
+                qApp->processEvents();
+            }
+            //视频增强
+            if(videoType==4)
+            {
+                //hsvFrame 就是frame1和之前的类似;
+                cvtColor(frame, frame1, COLOR_BGR2HSV);
+
+                // 提取亮度通道（V）并进行直方图均衡化
+                vector<Mat> channels;
+                split(frame1, channels);
+                equalizeHist(channels[2]+20, channels[2]);
+
+                // 合并通道并转换回RGB色彩空间
+                merge(channels, frame1);
+                cvtColor(frame1, frame1, COLOR_HSV2BGR);
                 QImage im1(frame1.data,frame1.cols,frame1.rows,QImage::Format_RGB888);
                 this->ui->after_video_lbl->setPixmap(QPixmap::fromImage(im1));
                 //自适应大小
@@ -326,6 +348,34 @@ void MainWindow::on_openCamera_clicked()
             // 等待一定时间后再次处理新的帧
             usleep(30000); // 每秒30帧
         }
+        //摄像机图像增强
+        else if(cameraType==4)
+        {
+            //hsvFrame 就是frame1和之前的类似;
+            cvtColor(frame_camera,frame_camera1, COLOR_BGR2HSV);
+
+            // 提取亮度通道（V）并进行直方图均衡化
+            vector<Mat> channels;
+            split(frame_camera1, channels);
+            equalizeHist(channels[2]+20, channels[2]);
+
+            // 合并通道并转换回RGB色彩空间
+            merge(channels, frame_camera1);
+            cvtColor(frame_camera1, frame_camera1, COLOR_HSV2BGR);
+
+            // 将OpenCV图像数据复制到Qt图片对象中
+            QImage image((uchar*)frame_camera1.data, frame_camera1.cols, frame_camera1.rows, QImage::Format_RGB888);
+
+            // 设置标签控件的图像
+
+            this->ui->after_camera_lbl->setPixmap(QPixmap::fromImage(image));
+            //自适应大小
+            this->ui->after_camera_lbl->setScaledContents(true);
+            qApp->processEvents();
+
+            // 等待一定时间后再次处理新的帧
+            usleep(30000); // 每秒30帧
+        }
 
 
 
@@ -345,5 +395,68 @@ void MainWindow::on_openCamera_clicked()
         usleep(30000); // 每秒30帧
     }
 
+}
+
+//点击图像增强按钮(去雾，增加清晰度)
+void MainWindow::on_pushButton_8_clicked()
+{
+    //获取当前tab的序号
+    QString currentTabName = ui->showArea->currentWidget()->objectName();
+    //QMessageBox::information(NULL, "Title",currentTabName,QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes);测试
+    if(currentTabName=="pictureArea")
+    {
+        if (srcImage.empty()) {
+            std::cout << "无法打开输入图像" << std::endl;
+            return;
+        }
+
+        // 将图像转换为HSV色彩空间
+        Mat hsvImage;
+        cvtColor(srcImage, srcImage, COLOR_BGR2HSV);
+
+        // 提取亮度通道（V）并进行直方图均衡化
+        vector<Mat> channels;
+        split(srcImage, channels);
+        equalizeHist(channels[2]+20, channels[2]);
+
+        // 合并通道并转换回RGB色彩空间
+        merge(channels, hsvImage);
+        cvtColor(hsvImage, srcImage, COLOR_HSV2BGR);
+
+        // 显示结果图像
+        QImage displayImg = QImage(srcImage.data,srcImage.cols,srcImage.rows,srcImage.cols * srcImage.channels(),QImage::Format_RGB888);//格式化一个8位的
+        QImage disimage = imageCenter(displayImg,ui->after_pic_lbl);
+        //显示图片到页面
+        ui->after_pic_lbl->setPixmap(QPixmap::fromImage(disimage));
+    }
+    //视频增强
+    if(currentTabName=="videoArea")
+    {
+        videoType = 4;
+    }
+    if(currentTabName=="cameraArea")
+    {
+        cameraType=4;
+    }
+}
+
+
+
+
+
+
+//菜单打开视频
+void MainWindow::on_action_2_triggered()
+{
+    path=QFileDialog::getOpenFileName(this,"打开文件","./","*.*");
+    //读取视频
+    bool ret=cap.open(path.toStdString().c_str());
+    timer->start(50);
+}
+
+
+void MainWindow::on_pushButton_5_clicked()
+{
+    //待完成
 }
 
