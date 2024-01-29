@@ -24,6 +24,7 @@
 
 
 
+
 //使用opencv的命名空间
 using namespace cv;
 QT_BEGIN_NAMESPACE

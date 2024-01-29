@@ -13,7 +13,8 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    yolo.h
 
 FORMS += \
     mainwindow.ui
@@ -24,6 +25,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 ##包含路径
-INCLUDEPATH += F:\QT\visiondev\opencv\opencv_build\install\include
+INCLUDEPATH += F:\QT\visiondev\opencv4.4.0\opencv\opencv_build\install\include
 ##库文件
-LIBS += F:\QT\visiondev\opencv\opencv_build\lib\libopencv_*.a
+LIBS += F:\QT\visiondev\opencv4.4.0\opencv\opencv_build\lib\libopencv_*.a
+
+RESOURCES += \
+    yolo-fast.qrc

@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>yolo_fast/coco.names</file>
+        <file>yolo_fast/yolo-fastest-xl.cfg</file>
+        <file>yolo_fast/yolo-fastest-xl.weights</file>
+    </qresource>
+</RCC>
