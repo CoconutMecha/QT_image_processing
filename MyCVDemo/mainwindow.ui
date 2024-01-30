@@ -6,21 +6,24 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>943</width>
-    <height>504</height>
+    <width>1306</width>
+    <height>760</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">border-width:0;border-style:outset</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTabWidget" name="showArea">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>20</x>
       <y>100</y>
-      <width>901</width>
-      <height>341</height>
+      <width>1251</width>
+      <height>591</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -33,10 +36,10 @@
      <widget class="QLabel" name="after_pic_lbl">
       <property name="geometry">
        <rect>
-        <x>480</x>
+        <x>650</x>
         <y>10</y>
-        <width>401</width>
-        <height>281</height>
+        <width>591</width>
+        <height>521</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -49,10 +52,10 @@
      <widget class="QLabel" name="before_pic_lbl">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>30</x>
         <y>10</y>
-        <width>391</width>
-        <height>281</height>
+        <width>581</width>
+        <height>521</height>
        </rect>
       </property>
       <property name="autoFillBackground">
@@ -76,17 +79,26 @@
      <widget class="QLabel" name="after_video_lbl">
       <property name="geometry">
        <rect>
-        <x>480</x>
+        <x>630</x>
         <y>10</y>
-        <width>401</width>
-        <height>281</height>
+        <width>591</width>
+        <height>521</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+        <bold>false</bold>
+       </font>
       </property>
       <property name="frameShape">
        <enum>QFrame::WinPanel</enum>
       </property>
       <property name="text">
-       <string/>
+       <string>输出</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
       </property>
      </widget>
      <widget class="QLabel" name="before_video_lbl">
@@ -94,9 +106,14 @@
        <rect>
         <x>20</x>
         <y>10</y>
-        <width>391</width>
-        <height>281</height>
+        <width>581</width>
+        <height>521</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+       </font>
       </property>
       <property name="autoFillBackground">
        <bool>false</bool>
@@ -108,7 +125,10 @@
        <enum>QFrame::Plain</enum>
       </property>
       <property name="text">
-       <string/>
+       <string>输入</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
       </property>
      </widget>
     </widget>
@@ -121,8 +141,8 @@
        <rect>
         <x>20</x>
         <y>10</y>
-        <width>391</width>
-        <height>281</height>
+        <width>581</width>
+        <height>521</height>
        </rect>
       </property>
       <property name="autoFillBackground">
@@ -141,10 +161,10 @@
      <widget class="QLabel" name="after_camera_lbl">
       <property name="geometry">
        <rect>
-        <x>480</x>
+        <x>640</x>
         <y>10</y>
-        <width>401</width>
-        <height>281</height>
+        <width>591</width>
+        <height>521</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -161,15 +181,35 @@
      <rect>
       <x>20</x>
       <y>10</y>
-      <width>881</width>
-      <height>71</height>
+      <width>1231</width>
+      <height>101</height>
      </rect>
     </property>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QPushButton" name="openPic">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>50</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">
+</string>
+       </property>
        <property name="text">
         <string>打开图片</string>
+       </property>
+       <property name="icon">
+        <iconset resource="image.qrc">
+         <normaloff>:/image/pic.png</normaloff>:/image/pic.png</iconset>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -178,12 +218,20 @@
        <property name="text">
         <string>打开视频</string>
        </property>
+       <property name="icon">
+        <iconset resource="image.qrc">
+         <normaloff>:/image/video.png</normaloff>:/image/video.png</iconset>
+       </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="openCamera">
        <property name="text">
         <string>打开摄像头</string>
+       </property>
+       <property name="icon">
+        <iconset resource="image.qrc">
+         <normaloff>:/image/camera.png</normaloff>:/image/camera.png</iconset>
        </property>
       </widget>
      </item>
@@ -192,12 +240,20 @@
        <property name="text">
         <string>灰度化</string>
        </property>
+       <property name="icon">
+        <iconset resource="image.qrc">
+         <normaloff>:/image/gray.png</normaloff>:/image/gray.png</iconset>
+       </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_8">
        <property name="text">
-        <string>图像增强</string>
+        <string>增强去雾</string>
+       </property>
+       <property name="icon">
+        <iconset resource="image.qrc">
+         <normaloff>:/image/fog.png</normaloff>:/image/fog.png</iconset>
        </property>
       </widget>
      </item>
@@ -206,6 +262,10 @@
        <property name="text">
         <string>边缘检测</string>
        </property>
+       <property name="icon">
+        <iconset resource="image.qrc">
+         <normaloff>:/image/edge.png</normaloff>:/image/edge.png</iconset>
+       </property>
       </widget>
      </item>
      <item>
@@ -213,12 +273,20 @@
        <property name="text">
         <string>均值滤波</string>
        </property>
+       <property name="icon">
+        <iconset resource="image.qrc">
+         <normaloff>:/image/filter.png</normaloff>:/image/filter.png</iconset>
+       </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="pushButton_5">
        <property name="text">
         <string>目标检测（yolo）</string>
+       </property>
+       <property name="icon">
+        <iconset resource="image.qrc">
+         <normaloff>:/image/yolo.png</normaloff>:/image/yolo.png</iconset>
        </property>
       </widget>
      </item>
@@ -230,7 +298,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>943</width>
+     <width>1306</width>
      <height>21</height>
     </rect>
    </property>
@@ -265,6 +333,8 @@
    </property>
   </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="image.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>image/edge.png</file>
+        <file>image/fog.png</file>
+        <file>image/gray.png</file>
+        <file>image/pic.png</file>
+        <file>image/video.png</file>
+        <file>image/yolo.png</file>
+        <file>image/camera.png</file>
+        <file>image/filter.png</file>
+    </qresource>
+</RCC>

@@ -60,7 +60,7 @@ QImage MainWindow::imageCenter(QImage qimage,QLabel *qLabel)
     QImage image;
     QSize imageSize = qimage.size();
     QSize labelSize = qLabel->size();
-
+    qDebug()<<labelSize.height()<<labelSize.width();
     double dWidthRatio = 1.0 * imageSize.width() / labelSize.width();
     double dHeightRatio = 1.0 * imageSize.height() / labelSize.height();
     if (dWidthRatio>dHeightRatio)
@@ -180,7 +180,8 @@ void MainWindow::ReadFrame()
                 qDebug()<<"目标检测";
                 YOLO yolo_model(yolo_nets[0]);
                 //Mat srcimg = srcImage;
-                cvtColor(frame, frame1, CV_RGB2BGR);
+                //cvtColor(frame, frame1, CV_RGB2BGR);
+                frame1 = frame.clone();//深拷贝不影响原来的frame
                 yolo_model.detect(frame1);
                 cvtColor(frame1, frame1, CV_BGR2RGB);
                 QImage im1(frame1.data,frame1.cols,frame1.rows,QImage::Format_RGB888);
@@ -301,7 +302,8 @@ void MainWindow::on_openCamera_clicked()
         return;
     }
 
-    while (true) {
+    //使用this->isVisible()替换true防止关闭窗口程序继续运行
+    while (this->isVisible()) {
         // 从摄像头获取当前帧并转换为RGB格式
         cap >> frame_camera;
         //qDebug()<<cameraType;
@@ -397,7 +399,8 @@ void MainWindow::on_openCamera_clicked()
             qDebug()<<"摄像机yolo";
             YOLO yolo_model(yolo_nets[0]);
             //Mat srcimg = srcImage;
-            cvtColor(frame_camera, frame_camera1, cv::COLOR_BGR2RGB);
+            //cvtColor(frame_camera, frame_camera1, cv::COLOR_BGR2RGB);
+            frame_camera1 = frame_camera.clone();//深拷贝不影响原来的frame
             //frame_camera1 = frame_camera;
             yolo_model.detect(frame_camera1);
             cvtColor(frame_camera1, frame_camera1, cv::COLOR_BGR2RGB);

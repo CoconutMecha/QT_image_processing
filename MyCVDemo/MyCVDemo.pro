@@ -30,4 +30,5 @@ INCLUDEPATH += F:\QT\visiondev\opencv4.4.0\opencv\opencv_build\install\include
 LIBS += F:\QT\visiondev\opencv4.4.0\opencv\opencv_build\lib\libopencv_*.a
 
 RESOURCES += \
+    image.qrc \
     yolo-fast.qrc
