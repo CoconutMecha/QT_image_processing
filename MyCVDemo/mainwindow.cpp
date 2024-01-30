@@ -180,8 +180,9 @@ void MainWindow::ReadFrame()
                 qDebug()<<"目标检测";
                 YOLO yolo_model(yolo_nets[0]);
                 //Mat srcimg = srcImage;
-                yolo_model.detect(frame);
-                cvtColor(frame, frame1, CV_BGR2RGB);
+                cvtColor(frame, frame1, CV_RGB2BGR);
+                yolo_model.detect(frame1);
+                cvtColor(frame1, frame1, CV_BGR2RGB);
                 QImage im1(frame1.data,frame1.cols,frame1.rows,QImage::Format_RGB888);
                 this->ui->after_video_lbl->setPixmap(QPixmap::fromImage(im1));
                 //自适应大小
