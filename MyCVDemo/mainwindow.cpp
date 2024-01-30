@@ -174,9 +174,24 @@ void MainWindow::ReadFrame()
                 qApp->processEvents();
             }
 
+            //yolo-fast
+            if(videoType==5)
+            {
+                qDebug()<<"目标检测";
+                YOLO yolo_model(yolo_nets[0]);
+                //Mat srcimg = srcImage;
+                yolo_model.detect(frame);
+                cvtColor(frame, frame1, CV_BGR2RGB);
+                QImage im1(frame1.data,frame1.cols,frame1.rows,QImage::Format_RGB888);
+                this->ui->after_video_lbl->setPixmap(QPixmap::fromImage(im1));
+                //自适应大小
+                this->ui->after_video_lbl->setScaledContents(true);
+                qApp->processEvents();
+            }
+
             cvtColor(frame,frame,CV_BGR2RGB);
             QImage im(frame.data,frame.cols,frame.rows,QImage::Format_RGB888);
-            qDebug()<<frame.data;
+            //qDebug()<<frame.data;
             this->ui->before_video_lbl->setPixmap(QPixmap::fromImage(im));
             //自适应大小
             this->ui->before_video_lbl->setScaledContents(true);
@@ -288,7 +303,7 @@ void MainWindow::on_openCamera_clicked()
     while (true) {
         // 从摄像头获取当前帧并转换为RGB格式
         cap >> frame_camera;
-        qDebug()<<cameraType;
+        //qDebug()<<cameraType;
 
         //灰度化
         if(cameraType==1)
@@ -376,6 +391,30 @@ void MainWindow::on_openCamera_clicked()
             // 等待一定时间后再次处理新的帧
             usleep(30000); // 每秒30帧
         }
+        else if(cameraType==5)
+        {
+            qDebug()<<"摄像机yolo";
+            YOLO yolo_model(yolo_nets[0]);
+            //Mat srcimg = srcImage;
+            cvtColor(frame_camera, frame_camera1, cv::COLOR_BGR2RGB);
+            //frame_camera1 = frame_camera;
+            yolo_model.detect(frame_camera1);
+            cvtColor(frame_camera1, frame_camera1, cv::COLOR_BGR2RGB);
+
+            // 将OpenCV图像数据复制到Qt图片对象中
+            QImage image((uchar*)frame_camera1.data, frame_camera1.cols, frame_camera1.rows, QImage::Format_RGB888);
+
+            // 设置标签控件的图像
+
+            this->ui->after_camera_lbl->setPixmap(QPixmap::fromImage(image));
+            //自适应大小
+            this->ui->after_camera_lbl->setScaledContents(true);
+            qApp->processEvents();
+
+            // 等待一定时间后再次处理新的帧
+            usleep(30000); // 每秒30帧
+
+        }
 
 
 
@@ -457,16 +496,34 @@ void MainWindow::on_action_2_triggered()
 //点击目标检测按钮
 void MainWindow::on_pushButton_5_clicked()
 {
-    //待完成
-    YOLO yolo_model(yolo_nets[0]);
-    //Mat srcimg = srcImage;
-    yolo_model.detect(srcImage);
-    cvtColor(srcImage,srcImage,CV_BGR2RGB);//输入对象，输出对象（同名表示覆盖原来的），转换的类型
-    //Mat转换为Qimage对象
-    QImage displayImg = QImage(srcImage.data,srcImage.cols,srcImage.rows,srcImage.cols * srcImage.channels(),QImage::Format_RGB888);//格式化一个8位的
-    QImage disimage = imageCenter(displayImg,ui->after_pic_lbl);
-    //显示图片到页面
-    ui->after_pic_lbl->setPixmap(QPixmap::fromImage(disimage));
+    //获取当前tab的序号
+    QString currentTabName = ui->showArea->currentWidget()->objectName();
+    if(currentTabName=="pictureArea")
+    {
+        //待完成 已完成
+        YOLO yolo_model(yolo_nets[0]);
+        //Mat srcimg = srcImage;
+        yolo_model.detect(srcImage);
+        cvtColor(srcImage,srcImage,CV_BGR2RGB);//输入对象，输出对象（同名表示覆盖原来的），转换的类型
+        //Mat转换为Qimage对象
+        QImage displayImg = QImage(srcImage.data,srcImage.cols,srcImage.rows,srcImage.cols * srcImage.channels(),QImage::Format_RGB888);//格式化一个8位的
+        QImage disimage = imageCenter(displayImg,ui->after_pic_lbl);
+        //显示图片到页面
+        ui->after_pic_lbl->setPixmap(QPixmap::fromImage(disimage));
+    }
+    //检测视频
+    else if(currentTabName=="videoArea")
+    {
+        videoType = 5;
+    }
+    //检测摄像机
+    else if(currentTabName=="cameraArea")
+    {
+        cameraType = 5;
+        //qDebug()<<"摄像机检测1";
+        qDebug()<<cameraType<<currentTabName;
+    }
+
 
 }
 
