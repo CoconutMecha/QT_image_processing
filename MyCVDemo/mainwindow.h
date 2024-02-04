@@ -70,10 +70,6 @@ private slots:
 
     void on_pushButton_8_clicked();
 
-    void on_verticalSlider_valueChanged(int value);
-
-    void on_verticalSlider_5_valueChanged(int value);
-
     void on_action_2_triggered();
 
     void on_pushButton_5_clicked();
